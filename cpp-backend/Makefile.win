@@ -1,0 +1,21 @@
+# ==============================================================================
+# NMAKE Makefile for Microsoft Windows (cl.exe)
+# Usage: nmake /f Makefile.win
+# ==============================================================================
+
+CXX = cl.exe
+CXXFLAGS = /nologo /O2 /std:c++17 /EHsc /W3 /DWIN32 /D_WINDOWS /D_CRT_SECURE_NO_WARNINGS
+LDFLAGS = sqlite3.lib
+
+TARGET_DIR = ..\bin
+TARGET = $(TARGET_DIR)\proton_core_engine.exe
+
+all: $(TARGET)
+
+$(TARGET): engine_windows.cpp
+	if not exist $(TARGET_DIR) mkdir $(TARGET_DIR)
+	$(CXX) $(CXXFLAGS) engine_windows.cpp $(LDFLAGS) /Fe:$(TARGET)
+	if exist $(TARGET_DIR)\engine_windows.obj del /Q $(TARGET_DIR)\engine_windows.obj
+
+clean:
+	if exist $(TARGET) del /Q $(TARGET)
